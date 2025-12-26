@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLUE MOON (BMC) - Once in a Blue Moon on Monad</title>
+  <meta name="description" content="Blue Moon (BMC) - Rare celestial token on Monad blockchain. Lightning-fast, community-driven, and full of opportunity.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #0080FF;
+      --secondary: #C0C0C0;
+      --accent: #0A0E27;
+      --gold: #FFD700;
+      --neon: #00FFFF;
+      --bg-dark: #0a0a0f;
+      --bg-card: rgba(24,24,27,0.85);
+      --text-main: #fff;
+      --text-muted: #b3c6ff;
+      --banner-bg: rgba(0,128,255,0.12);
+      --banner-border: #0080FF;
+      --discord: #5865F2;
+      --twitter: #1da1f2;
+      --telegram: #229ED9;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--accent) 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    nav {
+      background: var(--bg-card);
+      box-shadow: 0 2px 12px #0002;
+      z-index: 10;
+      position: sticky;
+      top: 0;
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .logo img { width: 44px; height: 44px; border-radius: 50%; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .token-icon {
+      width: 150px; height: 150px; margin: 0 auto 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
+    .token-icon img {
+      width: 100%; height: 100%; border-radius: 50%;
+      box-shadow: 0 0 50px var(--primary);
+      background: #fff;
+    }
+    h1 {
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--primary), var(--gold), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline { font-size: 1.5rem; margin-bottom: 2rem; color: var(--primary); }
+    .cta-buttons {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--primary)cc 0%, var(--neon)cc 100%);
+      color: var(--text-main);
+      box-shadow: 0 2px 8px #0080ff22;
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--accent); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn-secondary:hover { background: var(--primary); color: var(--text-main); }
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      border: 1.5px solid var(--primary);
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px #0080ff44;
+    }
+    .stat-value { font-size: 2.1rem; font-weight: bold; color: var(--gold); margin-bottom: 0.5rem; }
+    .stat-label { font-size: 1rem; color: var(--primary); }
+    .socials {
+      display: flex; gap: 1rem; justify-content: center; margin: 2rem 0 0 0;
+      flex-wrap: wrap;
+    }
+    .social-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .social-btn.discord { background: var(--discord); }
+    .social-btn.discord:hover { background: #404eed; }
+    .social-btn.twitter { background: var(--twitter); }
+    .social-btn.twitter:hover { background: #0d8ddb; }
+    .social-btn.telegram { background: var(--telegram); }
+    .social-btn.telegram:hover { background: #157ab3; }
+    .social-btn.dex { background: #222; }
+    .social-btn.dex:hover { background: #0080FF; }
+    /* Responsive */
+    @media (max-width: 700px) {
+      .stats { grid-template-columns: 1fr; }
+      .nav-container { flex-direction: column; gap: 1rem; }
+      .cta-buttons { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="https://brown-left-viper-691.mypinata.cloud/ipfs/bafybeiayhsrdt3ygjhnfatzqopmazjieyp4ykiwscvp23odcwqc5ccgbgi" alt="Blue Moon Logo" loading="lazy">
+        <span>BLUE MOON (BMC)</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#token">Token</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="token-icon">
+          <img src="https://brown-left-viper-691.mypinata.cloud/ipfs/bafybeiayhsrdt3ygjhnfatzqopmazjieyp4ykiwscvp23odcwqc5ccgbgi" alt="Blue Moon Token" loading="lazy">
+        </div>
+        <h1>BLUE MOON (BMC)</h1>
+        <p class="tagline">Once in a Blue Moon - Revolutionary Token on Monad Blockchain</p>
+        <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin:1rem 0;">
+          <a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank" rel="noopener">
+            <img src="https://api.dexscreener.com/latest/dex/tokens/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5/badge" alt="BMC Price" style="height:28px;vertical-align:middle;">
+          </a>
+          <a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank" rel="noopener">
+            <img src="https://raw.githubusercontent.com/dexscreener/dexscreener-assets/main/dexscreener-icon.png" alt="Dexscreener" style="width:22px;vertical-align:middle;">
+          </a>
+        </div>
+        <div class="cta-buttons">
+          <a href="#about" class="btn btn-primary">Learn More</a>
+          <a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" class="btn btn-secondary" target="_blank">View Chart</a>
+        </div>
+        <div class="socials" id="community">
+          <a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" class="social-btn dex" target="_blank" rel="noopener">
+            <img src="https://raw.githubusercontent.com/dexscreener/dexscreener-assets/main/dexscreener-icon.png" alt="Dexscreener"> Dexscreener
+          </a>
+          <a href="https://twitter.com/bnbgold277983" class="social-btn twitter" target="_blank" rel="noopener">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg" alt="Twitter"> Twitter
+          </a>
+          <a href="https://discord.gg/xnDAuzd8" class="social-btn discord" target="_blank" rel="noopener">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord"> Discord
+          </a>
+          <a href="https://t.me/MonadFrogsNFT" class="social-btn telegram" target="_blank" rel="noopener">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram"> Telegram
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">🌟 About</h2>
+      <p style="font-size:1.2rem; color:var(--secondary); margin-bottom:2rem;">
+        <b>Blue Moon (BMC)</b> is a rare celestial phenomenon in the crypto universe. Just as a blue moon appears once in a great while, this token represents extraordinary opportunities on Monad's lightning-fast blockchain. Capturing the magic of rare moments, BMC brings together a community that believes in seizing once-in-a-lifetime chances.<br><br>
+        When they said it happens once in a blue moon... that time is NOW. 🌙
+      </p>
+    </div>
+  </div>
+  <div class="section" id="token">
+    <div class="container">
+      <h2 class="section-title">📊 Token Information</h2>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value">Blue Moon</div>
+          <div class="stat-label">Token Name</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">BMC</div>
+          <div class="stat-label">Symbol</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1,000,000</div>
+          <div class="stat-label">Total Supply</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Monad</div>
+          <div class="stat-label">Network</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="font-size:1rem;word-break:break-all;">0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5</div>
+          <div class="stat-label">Token Contract</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">ERC-20 (Upgradeable Proxy)</div>
+          <div class="stat-label">Contract Type</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1,200+</div>
+          <div class="stat-label">Holders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$0.00009999</div>
+          <div class="stat-label">Current Price</div>
+        </div>
+      </div>
+      <div style="margin:2rem auto 0 auto;max-width:600px;text-align:center;">
+        <span style="color:var(--primary);font-weight:600;">BMC Contract:</span>
+        <span id="bmcContract" style="font-family:monospace;color:var(--accent);margin:0 0.5rem;">
+          0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5
+        </span>
+        <button class="btn btn-primary" onclick="navigator.clipboard.writeText('0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5')">Copy</button>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="roadmap">
+    <div class="container">
+      <h2 class="section-title">📈 Roadmap</h2>
+      <ul style="font-size:1.1rem; color:var(--secondary); max-width:700px; margin:0 auto 2rem auto; line-height:1.7;">
+        <li><b>Phase 1: Launch ✅</b> – Token deployment, liquidity pool, community building</li>
+        <li><b>Phase 2: Growth 🔄</b> – Dashboard, staking, marketing, exchange listings, partnerships</li>
+        <li><b>Phase 3: Expansion 🚀</b> – NFT collection, governance, cross-chain bridges, ecosystem</li>
+        <li><b>Phase 4: Moon 🌙</b> – Major CEX listings, global recognition, sustainable utility, legacy</li>
+      </ul>
+    </div>
+  </div>
+  <footer>
+    <div>
+      <img src="https://brown-left-viper-691.mypinata.cloud/ipfs/bafybeiayhsrdt3ygjhnfatzqopmazjieyp4ykiwscvp23odcwqc5ccgbgi" alt="Blue Moon Logo" loading="lazy">
+    </div>
+    <div class="container" style="text-align:center;">
+      <p style="color: var(--primary); font-size:1.1rem;">© 2025 BLUE MOON (BMC) – Powered by Monad Blockchain.</p>
+      <p style="color: var(--neon); margin-top: 0.5rem; font-size: 0.95rem;">
+        ⚠️ DYOR. Crypto investments carry risk. Not financial advice.
+      </p>
+      <div style="margin-top:1rem;">
+        <a href="https://etherscan.io/address/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank" rel="noopener" style="text-decoration:none;">
+          <img src="https://img.shields.io/badge/Donate-Blue%20Moon%20%F0%9F%8C%99-blue?style=for-the-badge&logo=ethereum" alt="Donate Blue Moon" style="height:32px;vertical-align:middle;">
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
