@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/@web3auth/modal@8.0.0/dist/modal.umd.min.js"></script>
   <style>
     :root {
       --primary: #4A9EFF;
@@ -392,58 +391,78 @@
   </footer>
 
   <script>
-    // Use correct UMD global
-    const { Web3Auth } = window.Web3AuthModal;
-    let web3auth = null;
-    let provider = null;
+    // Simple MetaMask/Wallet connection (works in browser)
+    let currentAccount = null;
 
-    // Initialize Web3Auth
-    const initWeb3Auth = async () => {
+    // Check if wallet is available
+    const isWalletAvailable = () => {
+      return typeof window.ethereum !== 'undefined';
+    };
+
+    // Connect wallet using MetaMask or any injected provider
+    const connectWallet = async () => {
+      if (!isWalletAvailable()) {
+        alert('Please install MetaMask or another Web3 wallet!');
+        return;
+      }
+
       try {
-        web3auth = new Web3Auth({
-          clientId: "BDIdrHVKkeyBt3C96h7XwsT1jh2TMlHZT3F2nJI72jDxa8YTBSpieuwNs9I-4eQiU41ApZqiBGXgaHfYj7SJ9xc",
-          web3AuthNetwork: "sapphire_mainnet",
-          chainConfig: {
-            chainNamespace: "eip155",
-            chainId: "0xa1d3", // Monad mainnet
-            rpcTarget: "https://rpc.monad.xyz",
-            displayName: "Monad Mainnet",
-            blockExplorer: "https://explorer.monad.xyz",
-            ticker: "MON",
-            tickerName: "Monad",
-          },
+        // Request account access
+        const accounts = await window.ethereum.request({ 
+          method: 'eth_requestAccounts' 
         });
-        await web3auth.initModal();
-        // If already connected, show address
-        if (web3auth.status === "CONNECTED" && web3auth.provider) {
-          provider = web3auth.provider;
-          const accounts = await provider.request({ method: "eth_accounts" });
-          if (accounts && accounts[0]) updateWalletUI(accounts[0]);
+        
+        currentAccount = accounts[0];
+        
+        // Try to switch to Monad network
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0xa1d3' }], // Monad mainnet: 41427 in decimal
+          });
+        } catch (switchError) {
+          // Network not added, try to add it
+          if (switchError.code === 4902) {
+            try {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId: '0xa1d3',
+                  chainName: 'Monad Mainnet',
+                  nativeCurrency: {
+                    name: 'Monad',
+                    symbol: 'MON',
+                    decimals: 18
+                  },
+                  rpcUrls: ['https://rpc.monad.xyz'],
+                  blockExplorerUrls: ['https://explorer.monad.xyz']
+                }]
+              });
+            } catch (addError) {
+              console.error('Error adding Monad network:', addError);
+            }
+          }
         }
+        
+        updateWalletUI(currentAccount);
       } catch (error) {
-        console.error("Web3Auth initialization error:", error);
+        console.error('Error connecting wallet:', error);
+        alert('Failed to connect wallet. Please try again.');
       }
     };
 
-    // Handle wallet connect/disconnect
-    const handleWallet = async () => {
-      if (!web3auth) await initWeb3Auth();
+    // Disconnect wallet
+    const disconnectWallet = () => {
+      currentAccount = null;
+      updateWalletUI(null);
+    };
 
-      if (web3auth.status === "CONNECTED" && web3auth.provider) {
-        // Logout
-        await web3auth.logout();
-        provider = null;
-        updateWalletUI(null);
-        // Re-initialize modal for next login
-        await web3auth.initModal();
+    // Handle wallet button click
+    const handleWallet = async () => {
+      if (currentAccount) {
+        disconnectWallet();
       } else {
-        try {
-          provider = await web3auth.connect();
-          const accounts = await provider.request({ method: "eth_accounts" });
-          updateWalletUI(accounts[0]);
-        } catch (error) {
-          console.error("Connection error:", error);
-        }
+        await connectWallet();
       }
     };
 
@@ -451,6 +470,7 @@
     const updateWalletUI = (address) => {
       const walletBtn = document.getElementById('walletBtn');
       const walletText = document.getElementById('walletText');
+      
       if (address) {
         walletBtn.classList.add('connected');
         walletText.textContent = address.slice(0, 6) + '...' + address.slice(-4);
@@ -459,6 +479,22 @@
         walletText.textContent = 'Connect Wallet';
       }
     };
+
+    // Listen for account changes
+    if (isWalletAvailable()) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length === 0) {
+          disconnectWallet();
+        } else {
+          currentAccount = accounts[0];
+          updateWalletUI(currentAccount);
+        }
+      });
+
+      window.ethereum.on('chainChanged', () => {
+        window.location.reload();
+      });
+    }
 
     // Copy contract address
     const copyContract = () => {
@@ -471,12 +507,15 @@
       try {
         const response = await fetch('https://api.dexscreener.com/latest/dex/tokens/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5');
         const data = await response.json();
+        
         if (data.pairs && data.pairs.length > 0) {
           const pair = data.pairs[0];
           const price = parseFloat(pair.priceUsd);
           const change24h = parseFloat(pair.priceChange.h24);
+          
           document.getElementById('tokenPrice').textContent = '$' + price.toFixed(8);
           document.getElementById('currentPrice').textContent = '$' + price.toFixed(8);
+          
           const changeEl = document.getElementById('priceChange');
           changeEl.textContent = (change24h > 0 ? '+' : '') + change24h.toFixed(2) + '%';
           changeEl.style.background = change24h > 0 ? 'rgba(76,175,80,0.2)' : 'rgba(244,67,54,0.2)';
@@ -489,9 +528,8 @@
 
     // Initialize on page load
     window.addEventListener('load', () => {
-      initWeb3Auth();
       fetchTokenPrice();
-      setInterval(fetchTokenPrice, 30000);
+      setInterval(fetchTokenPrice, 30000); // Update every 30 seconds
     });
   </script>
 </body>
