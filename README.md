@@ -114,6 +114,6 @@ Once in a Blue Moon... 🌙
 
  [![Donate](https://img.shields.io/badge/Donate-Blue%20Moon%20%F0%9F%8C%99-blue?style=for-the-badge&logo=ethereum)](https://etherscan.io/address/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5)
 
-"The moon is a loyal companion. It never leaves. It's always there, watching, steadfast, knowing us in our light and dark moments." - Tahereh Mafi
+"The moon is a loyal companion. It never leaves. It's always there, watching, steadfast, knowing us in our light and dark moments
 
 The Blue Moon has risen. Don't miss it. ✨
