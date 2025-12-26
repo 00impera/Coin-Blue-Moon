@@ -8,30 +8,6 @@ BLUE MOON
 🌟 About
 Blue Moon (BMC) is a rare celestial phenomenon in the crypto universe. Just as a blue moon appears once in a great while, this token represents extraordinary opportunities on Monad's lightning-fast blockchain. Capturing the magic of rare moments, BMC brings together a community that believes in seizing once-in-a-lifetime chances.
 
-When they said it happens once in a blue moon... that time is NOW. 🌙
-
-📊 Token Information
-Token Name: Blue Moon
-Symbol: BMC
-Total Supply: 1,000,000 BMC
-Network: Monad (Chain ID: 143)
-Token Contract: 0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5
-Contract Type: ERC-20 (Upgradeable Proxy)
-Holders: 1,200+
-Current Price: $0.00009999
-🔗 Links
-Website / Dashboard: [Coming Soon]
-Twitter: [Your Twitter Handle]
-Telegram: [Your Telegram]
-Discord: [Your Discord]
-DexScreener: View Chart
-🛡️ Smart Contract
-Token Contract:
-0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5
-Verified: ✅ ERC-1967 Upgradeable Proxy
-
-Contract Features:
-
 ERC-20 Standard
 Upgradeable architecture
 Secure proxy pattern
@@ -117,9 +93,9 @@ Not Financial Advice | High Risk | DYOR
 📞 Community & Support
 Have questions? Join our growing community:
 
-💬 Telegram: [https://t.me/MonadFrogsNFT_bot/app]
-🐦 Twitter: [https://x.com/bnbgold277983]
-💻 Discord: [https://discord.com/channels/1316093079090106472]
+💬 Telegram: [![Telegram](https://img.shields.io/badge/Telegram-Join%20Chat-2CA5E0?logo=telegram&logoColor=white&style=for-the-badge)](https://t.me/MonadFrogsNFT_bot/app)
+🐦 Twitter: [![Twitter](https://img.shields.io/badge/Twitter-Follow%20Us-1DA1F2?logo=twitter&logoColor=white&style=for-the-badge)](https://x.com/bnbgold277983)
+💻 Discord: [![Discord](https://img.shields.io/badge/Discord-Join%20Server-5865F2?logo=discord&logoColor=white&style=for-the-badge)](https://discord.com/channels/1316093079090106472)
 📧 Email: [Contact]
 📄 License
 MIT License - See LICENSE file for details
