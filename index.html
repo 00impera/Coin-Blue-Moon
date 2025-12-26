@@ -392,11 +392,12 @@
   </footer>
 
   <script>
-    // Web3Auth Configuration
+    // Use correct UMD global
     const { Web3Auth } = window.Web3AuthModal;
     let web3auth = null;
     let provider = null;
 
+    // Initialize Web3Auth
     const initWeb3Auth = async () => {
       try {
         web3auth = new Web3Auth({
@@ -404,7 +405,7 @@
           web3AuthNetwork: "sapphire_mainnet",
           chainConfig: {
             chainNamespace: "eip155",
-            chainId: "0xa1d3", // Monad mainnet chain ID (41427 in decimal = 0xa1d3 in hex)
+            chainId: "0xa1d3", // Monad mainnet
             rpcTarget: "https://rpc.monad.xyz",
             displayName: "Monad Mainnet",
             blockExplorer: "https://explorer.monad.xyz",
@@ -413,8 +414,9 @@
           },
         });
         await web3auth.initModal();
-        provider = web3auth.provider;
-        if (provider) {
+        // If already connected, show address
+        if (web3auth.status === "CONNECTED" && web3auth.provider) {
+          provider = web3auth.provider;
           const accounts = await provider.request({ method: "eth_accounts" });
           if (accounts && accounts[0]) updateWalletUI(accounts[0]);
         }
@@ -423,18 +425,20 @@
       }
     };
 
+    // Handle wallet connect/disconnect
     const handleWallet = async () => {
       if (!web3auth) await initWeb3Auth();
 
-      if (web3auth.provider) {
-        // Already connected: logout
+      if (web3auth.status === "CONNECTED" && web3auth.provider) {
+        // Logout
         await web3auth.logout();
         provider = null;
         updateWalletUI(null);
+        // Re-initialize modal for next login
+        await web3auth.initModal();
       } else {
         try {
-          await web3auth.connect();
-          provider = web3auth.provider;
+          provider = await web3auth.connect();
           const accounts = await provider.request({ method: "eth_accounts" });
           updateWalletUI(accounts[0]);
         } catch (error) {
@@ -443,6 +447,7 @@
       }
     };
 
+    // Update wallet button UI
     const updateWalletUI = (address) => {
       const walletBtn = document.getElementById('walletBtn');
       const walletText = document.getElementById('walletText');
@@ -455,6 +460,7 @@
       }
     };
 
+    // Copy contract address
     const copyContract = () => {
       navigator.clipboard.writeText('0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5');
       alert('Contract address copied!');
