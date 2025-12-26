@@ -8,19 +8,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@web3auth/modal@8.0.0/dist/modal.umd.min.js"></script>
   <style>
     :root {
-      --primary: #0080FF;
-      --secondary: #C0C0C0;
-      --accent: #0A0E27;
+      --primary: #4A9EFF;
+      --secondary: #FF6B6B;
+      --accent: #000000;
       --gold: #FFD700;
-      --neon: #00FFFF;
-      --bg-dark: #0a0a0f;
-      --bg-card: rgba(24,24,27,0.85);
+      --neon: #00D9FF;
+      --bg-dark: #000000;
+      --bg-card: rgba(10,10,20,0.95);
       --text-main: #fff;
-      --text-muted: #b3c6ff;
-      --banner-bg: rgba(0,128,255,0.12);
-      --banner-border: #0080FF;
+      --text-muted: #a0b0ff;
       --discord: #5865F2;
       --twitter: #1da1f2;
       --telegram: #229ED9;
@@ -28,17 +27,19 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--accent) 100%);
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #0a0a1a 100%);
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
     }
     nav {
-      background: var(--bg-card);
-      box-shadow: 0 2px 12px #0002;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(74,158,255,0.2);
       z-index: 10;
       position: sticky;
       top: 0;
+      border-bottom: 1px solid rgba(74,158,255,0.3);
     }
     .nav-container {
       max-width: 1200px;
@@ -61,6 +62,7 @@
       display: flex;
       gap: 2rem;
       list-style: none;
+      align-items: center;
     }
     .nav-links a {
       color: var(--text-main);
@@ -69,6 +71,27 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--primary); }
+    .wallet-btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      font-weight: bold;
+      background: linear-gradient(90deg, var(--primary), var(--neon));
+      color: var(--text-main);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .wallet-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(74,158,255,0.4);
+    }
+    .wallet-btn.connected {
+      background: rgba(74,158,255,0.2);
+      border: 1px solid var(--primary);
+    }
     .hero {
       min-height: 80vh;
       display: flex;
@@ -91,12 +114,35 @@
     h1 {
       font-size: 3.2rem;
       margin-bottom: 1rem;
-      background: linear-gradient(45deg, var(--primary), var(--gold), var(--neon));
+      background: linear-gradient(45deg, var(--primary), var(--neon), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     .tagline { font-size: 1.5rem; margin-bottom: 2rem; color: var(--primary); }
+    .price-widget {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(74,158,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--primary);
+      border-radius: 15px;
+      padding: 12px 20px;
+      margin: 1rem 0;
+    }
+    .price-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--neon);
+    }
+    .price-change {
+      font-size: 1rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(76,175,80,0.2);
+      color: #4CAF50;
+    }
     .cta-buttons {
       display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
     }
@@ -105,28 +151,38 @@
       border-radius: 50px;
       font-weight: bold;
       text-decoration: none;
-      transition: background 0.2s, color 0.2s, border 0.2s;
+      transition: all 0.3s;
       border: none;
       cursor: pointer;
       display: inline-block;
     }
     .btn-primary {
-      background: linear-gradient(90deg, var(--primary)cc 0%, var(--neon)cc 100%);
+      background: linear-gradient(90deg, var(--primary), var(--neon));
       color: var(--text-main);
-      box-shadow: 0 2px 8px #0080ff22;
+      box-shadow: 0 4px 15px rgba(74,158,255,0.3);
     }
-    .btn-primary:hover { background: var(--gold); color: var(--accent); }
+    .btn-primary:hover { 
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(74,158,255,0.5);
+    }
     .btn-secondary {
       background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
     }
-    .btn-secondary:hover { background: var(--primary); color: var(--text-main); }
+    .btn-secondary:hover { 
+      background: var(--secondary); 
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
     .section-title {
       text-align: center;
       font-size: 2.2rem;
       margin-bottom: 2rem;
       color: var(--primary);
+    }
+    .section {
+      padding: 4rem 0;
     }
     .stats {
       display: grid;
@@ -135,21 +191,26 @@
       margin-top: 2rem;
     }
     .stat-card {
-      background: var(--bg-card);
+      background: rgba(10,10,20,0.8);
       backdrop-filter: blur(10px);
       padding: 2rem;
       border-radius: 20px;
       text-align: center;
-      border: 1.5px solid var(--primary);
+      border: 1.5px solid rgba(74,158,255,0.3);
       transition: all 0.3s;
     }
     .stat-card:hover {
       transform: translateY(-10px);
-      border-color: var(--gold);
-      box-shadow: 0 10px 30px #0080ff44;
+      border-color: var(--neon);
+      box-shadow: 0 10px 40px rgba(74,158,255,0.4);
     }
-    .stat-value { font-size: 2.1rem; font-weight: bold; color: var(--gold); margin-bottom: 0.5rem; }
-    .stat-label { font-size: 1rem; color: var(--primary); }
+    .stat-value { 
+      font-size: 2.1rem; 
+      font-weight: bold; 
+      color: var(--neon); 
+      margin-bottom: 0.5rem; 
+    }
+    .stat-label { font-size: 1rem; color: var(--text-muted); }
     .socials {
       display: flex; gap: 1rem; justify-content: center; margin: 2rem 0 0 0;
       flex-wrap: wrap;
@@ -163,27 +224,36 @@
       text-decoration: none;
       border: none;
       font-size: 1rem;
-      transition: background 0.2s, color 0.2s;
+      transition: all 0.3s;
+    }
+    .social-btn:hover {
+      transform: translateY(-3px);
     }
     .social-btn img {
       width: 20px;
       height: 20px;
       margin-right: 8px;
-      vertical-align: middle;
+      filter: brightness(0) invert(1);
     }
     .social-btn.discord { background: var(--discord); }
-    .social-btn.discord:hover { background: #404eed; }
+    .social-btn.discord:hover { box-shadow: 0 5px 20px rgba(88,101,242,0.5); }
     .social-btn.twitter { background: var(--twitter); }
-    .social-btn.twitter:hover { background: #0d8ddb; }
+    .social-btn.twitter:hover { box-shadow: 0 5px 20px rgba(29,161,242,0.5); }
     .social-btn.telegram { background: var(--telegram); }
-    .social-btn.telegram:hover { background: #157ab3; }
-    .social-btn.dex { background: #222; }
-    .social-btn.dex:hover { background: #0080FF; }
-    /* Responsive */
+    .social-btn.telegram:hover { box-shadow: 0 5px 20px rgba(34,158,217,0.5); }
+    .social-btn.dex { background: rgba(74,158,255,0.2); border: 1px solid var(--primary); }
+    .social-btn.dex:hover { background: var(--primary); box-shadow: 0 5px 20px rgba(74,158,255,0.5); }
+    footer {
+      background: rgba(0,0,0,0.9);
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(74,158,255,0.3);
+    }
     @media (max-width: 700px) {
       .stats { grid-template-columns: 1fr; }
       .nav-container { flex-direction: column; gap: 1rem; }
       .cta-buttons { flex-direction: column; }
+      h1 { font-size: 2rem; }
     }
   </style>
 </head>
@@ -199,9 +269,15 @@
         <li><a href="#token">Token</a></li>
         <li><a href="#roadmap">Roadmap</a></li>
         <li><a href="#community">Community</a></li>
+        <li>
+          <button id="walletBtn" class="wallet-btn" onclick="handleWallet()">
+            <span id="walletText">Connect Wallet</span>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
+  
   <div class="hero">
     <div class="container">
       <div class="hero-content">
@@ -210,13 +286,10 @@
         </div>
         <h1>BLUE MOON (BMC)</h1>
         <p class="tagline">Once in a Blue Moon - Revolutionary Token on Monad Blockchain</p>
-        <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin:1rem 0;">
-          <a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank" rel="noopener">
-            <img src="https://api.dexscreener.com/latest/dex/tokens/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5/badge" alt="BMC Price" style="height:28px;vertical-align:middle;">
-          </a>
-          <a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank" rel="noopener">
-            <img src="https://raw.githubusercontent.com/dexscreener/dexscreener-assets/main/dexscreener-icon.png" alt="Dexscreener" style="width:22px;vertical-align:middle;">
-          </a>
+        <div class="price-widget">
+          <span style="color: var(--text-muted);">Price:</span>
+          <span class="price-value" id="tokenPrice">$0.00009999</span>
+          <span class="price-change" id="priceChange">+2.5%</span>
         </div>
         <div class="cta-buttons">
           <a href="#about" class="btn btn-primary">Learn More</a>
@@ -239,15 +312,17 @@
       </div>
     </div>
   </div>
+  
   <div class="section" id="about">
     <div class="container">
       <h2 class="section-title">🌟 About</h2>
-      <p style="font-size:1.2rem; color:var(--secondary); margin-bottom:2rem;">
-        <b>Blue Moon (BMC)</b> is a rare celestial phenomenon in the crypto universe. Just as a blue moon appears once in a great while, this token represents extraordinary opportunities on Monad's lightning-fast blockchain. Capturing the magic of rare moments, BMC brings together a community that believes in seizing once-in-a-lifetime chances.<br><br>
-        When they said it happens once in a blue moon... that time is NOW. 🌙
+      <p style="font-size:1.2rem; color:var(--text-muted); margin-bottom:2rem; max-width:800px; margin-left:auto; margin-right:auto;">
+        <b style="color: var(--neon);">Blue Moon (BMC)</b> is a rare celestial phenomenon in the crypto universe. Just as a blue moon appears once in a great while, this token represents extraordinary opportunities on Monad's lightning-fast blockchain. Capturing the magic of rare moments, BMC brings together a community that believes in seizing once-in-a-lifetime chances.<br><br>
+        When they said it happens once in a blue moon... that time is <span style="color: var(--primary);">NOW</span>. 🌙
       </p>
     </div>
   </div>
+  
   <div class="section" id="token">
     <div class="container">
       <h2 class="section-title">📊 Token Information</h2>
@@ -269,11 +344,11 @@
           <div class="stat-label">Network</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" style="font-size:1rem;word-break:break-all;">0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5</div>
+          <div class="stat-value" style="font-size:0.9rem;word-break:break-all;">0x244DF...C46a5</div>
           <div class="stat-label">Token Contract</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">ERC-20 (Upgradeable Proxy)</div>
+          <div class="stat-value">ERC-20</div>
           <div class="stat-label">Contract Type</div>
         </div>
         <div class="stat-card">
@@ -281,45 +356,137 @@
           <div class="stat-label">Holders</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">$0.00009999</div>
+          <div class="stat-value" id="currentPrice">$0.00009999</div>
           <div class="stat-label">Current Price</div>
         </div>
       </div>
       <div style="margin:2rem auto 0 auto;max-width:600px;text-align:center;">
         <span style="color:var(--primary);font-weight:600;">BMC Contract:</span>
-        <span id="bmcContract" style="font-family:monospace;color:var(--accent);margin:0 0.5rem;">
+        <span style="font-family:monospace;color:var(--neon);margin:0 0.5rem;font-size:0.9rem;">
           0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5
         </span>
-        <button class="btn btn-primary" onclick="navigator.clipboard.writeText('0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5')">Copy</button>
+        <button class="btn btn-primary" onclick="copyContract()" style="padding:0.5rem 1rem;font-size:0.9rem;">Copy</button>
       </div>
     </div>
   </div>
+  
   <div class="section" id="roadmap">
     <div class="container">
       <h2 class="section-title">📈 Roadmap</h2>
-      <ul style="font-size:1.1rem; color:var(--secondary); max-width:700px; margin:0 auto 2rem auto; line-height:1.7;">
-        <li><b>Phase 1: Launch ✅</b> – Token deployment, liquidity pool, community building</li>
-        <li><b>Phase 2: Growth 🔄</b> – Dashboard, staking, marketing, exchange listings, partnerships</li>
-        <li><b>Phase 3: Expansion 🚀</b> – NFT collection, governance, cross-chain bridges, ecosystem</li>
-        <li><b>Phase 4: Moon 🌙</b> – Major CEX listings, global recognition, sustainable utility, legacy</li>
+      <ul style="font-size:1.1rem; color:var(--text-muted); max-width:700px; margin:0 auto 2rem auto; line-height:2; list-style:none;">
+        <li><b style="color:var(--neon);">Phase 1: Launch ✅</b> – Token deployment, liquidity pool, community building</li>
+        <li><b style="color:var(--primary);">Phase 2: Growth 🔄</b> – Dashboard, staking, marketing, exchange listings, partnerships</li>
+        <li><b style="color:var(--secondary);">Phase 3: Expansion 🚀</b> – NFT collection, governance, cross-chain bridges, ecosystem</li>
+        <li><b style="color:var(--gold);">Phase 4: Moon 🌙</b> – Major CEX listings, global recognition, sustainable utility, legacy</li>
       </ul>
     </div>
   </div>
+  
   <footer>
-    <div>
-      <img src="https://brown-left-viper-691.mypinata.cloud/ipfs/bafybeiayhsrdt3ygjhnfatzqopmazjieyp4ykiwscvp23odcwqc5ccgbgi" alt="Blue Moon Logo" loading="lazy">
-    </div>
-    <div class="container" style="text-align:center;">
+    <div class="container">
       <p style="color: var(--primary); font-size:1.1rem;">© 2025 BLUE MOON (BMC) – Powered by Monad Blockchain.</p>
-      <p style="color: var(--neon); margin-top: 0.5rem; font-size: 0.95rem;">
+      <p style="color: var(--secondary); margin-top: 0.5rem; font-size: 0.95rem;">
         ⚠️ DYOR. Crypto investments carry risk. Not financial advice.
       </p>
-      <div style="margin-top:1rem;">
-        <a href="https://etherscan.io/address/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank" rel="noopener" style="text-decoration:none;">
-          <img src="https://img.shields.io/badge/Donate-Blue%20Moon%20%F0%9F%8C%99-blue?style=for-the-badge&logo=ethereum" alt="Donate Blue Moon" style="height:32px;vertical-align:middle;">
-        </a>
-      </div>
     </div>
   </footer>
+
+  <script>
+    // Web3Auth Configuration
+    const { Web3Auth } = window.Web3AuthModal;
+    let web3auth = null;
+    let provider = null;
+
+    const initWeb3Auth = async () => {
+      try {
+        web3auth = new Web3Auth({
+          clientId: "BDIdrHVKkeyBt3C96h7XwsT1jh2TMlHZT3F2nJI72jDxa8YTBSpieuwNs9I-4eQiU41ApZqiBGXgaHfYj7SJ9xc",
+          web3AuthNetwork: "sapphire_mainnet",
+          chainConfig: {
+            chainNamespace: "eip155",
+            chainId: "0xa1d3", // Monad mainnet chain ID (41427 in decimal = 0xa1d3 in hex)
+            rpcTarget: "https://rpc.monad.xyz",
+            displayName: "Monad Mainnet",
+            blockExplorer: "https://explorer.monad.xyz",
+            ticker: "MON",
+            tickerName: "Monad",
+          },
+        });
+        await web3auth.initModal();
+        provider = web3auth.provider;
+        if (provider) {
+          const accounts = await provider.request({ method: "eth_accounts" });
+          if (accounts && accounts[0]) updateWalletUI(accounts[0]);
+        }
+      } catch (error) {
+        console.error("Web3Auth initialization error:", error);
+      }
+    };
+
+    const handleWallet = async () => {
+      if (!web3auth) await initWeb3Auth();
+
+      if (web3auth.provider) {
+        // Already connected: logout
+        await web3auth.logout();
+        provider = null;
+        updateWalletUI(null);
+      } else {
+        try {
+          await web3auth.connect();
+          provider = web3auth.provider;
+          const accounts = await provider.request({ method: "eth_accounts" });
+          updateWalletUI(accounts[0]);
+        } catch (error) {
+          console.error("Connection error:", error);
+        }
+      }
+    };
+
+    const updateWalletUI = (address) => {
+      const walletBtn = document.getElementById('walletBtn');
+      const walletText = document.getElementById('walletText');
+      if (address) {
+        walletBtn.classList.add('connected');
+        walletText.textContent = address.slice(0, 6) + '...' + address.slice(-4);
+      } else {
+        walletBtn.classList.remove('connected');
+        walletText.textContent = 'Connect Wallet';
+      }
+    };
+
+    const copyContract = () => {
+      navigator.clipboard.writeText('0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5');
+      alert('Contract address copied!');
+    };
+
+    // Fetch live price from DexScreener API
+    const fetchTokenPrice = async () => {
+      try {
+        const response = await fetch('https://api.dexscreener.com/latest/dex/tokens/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5');
+        const data = await response.json();
+        if (data.pairs && data.pairs.length > 0) {
+          const pair = data.pairs[0];
+          const price = parseFloat(pair.priceUsd);
+          const change24h = parseFloat(pair.priceChange.h24);
+          document.getElementById('tokenPrice').textContent = '$' + price.toFixed(8);
+          document.getElementById('currentPrice').textContent = '$' + price.toFixed(8);
+          const changeEl = document.getElementById('priceChange');
+          changeEl.textContent = (change24h > 0 ? '+' : '') + change24h.toFixed(2) + '%';
+          changeEl.style.background = change24h > 0 ? 'rgba(76,175,80,0.2)' : 'rgba(244,67,54,0.2)';
+          changeEl.style.color = change24h > 0 ? '#4CAF50' : '#F44336';
+        }
+      } catch (error) {
+        console.error('Error fetching price:', error);
+      }
+    };
+
+    // Initialize on page load
+    window.addEventListener('load', () => {
+      initWeb3Auth();
+      fetchTokenPrice();
+      setInterval(fetchTokenPrice, 30000);
+    });
+  </script>
 </body>
 </html>
