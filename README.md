@@ -6,6 +6,16 @@ Once in a Blue Moon - Revolutionary Token on Monad Blockchain
 
 BLUE MOON
 
+## 🔗 Links
+
+- **Website / Dashboard:** [https://00impera.github.io/Coin-Blue-Moon/)
+
+- **Twitter:** [@bnbgold277983](https://x.com/bnbgold277983)
+
+- **Telegram:** [MonadFrogsNFT](https://t.me/MonadFrogsNFT_bot/app)
+
+- **Discord:** [Community](https://discord.gg/xnDAuzd8)
+
 🌟 About
 Blue Moon (BMC) is a rare celestial phenomenon in the crypto universe. Just as a blue moon appears once in a great while, this token represents extraordinary opportunities on Monad's lightning-fast blockchain. Capturing the magic of rare moments, BMC brings together a community that believes in seizing once-in-a-lifetime chances.
 
