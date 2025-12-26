@@ -1,4 +1,11 @@
-BMC Price (https://api.dexscreener.com/latest/dex/tokens/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5/badge)](https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5)
+## BMC Price
+
+[![BMC Price](https://api.dexscreener.com/latest/dex/tokens/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5/badge)](https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5)
+<a href="https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5" target="_blank">
+  <img src="https://raw.githubusercontent.com/dexscreener/dexscreener-assets/main/dexscreener-icon.png" alt="Dexscreener" width="20" style="vertical-align: middle; margin-left: 8px;" />
+</a>
+
+(https://dexscreener.com/monad/0x244DF0E3A8276aDD749AF3ec3Ff7e642B1dC46a5)
 
 🌙 BLUE MOON (BMC)  ![Blue Moon Logo](https://brown-left-viper-691.mypinata.cloud/ipfs/bafybeiayhsrdt3ygjhnfatzqopmazjieyp4ykiwscvp23odcwqc5ccgbgi)
 Once in a Blue Moon - Revolutionary Token on Monad Blockchain
